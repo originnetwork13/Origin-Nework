@@ -229,25 +229,36 @@
         <div id="videos">
             <h2 class="section-title"><i class="fa-brands fa-youtube" style="color: #ff0000;"></i> Latest YouTube Videos</h2>
             <div class="video-grid">
-                <!-- Video 1 -->
+                <!-- Video 1 (Replace YOUTUBE_VIDEO_ID_1 with your actual video ID) -->
                 <div class="video-card">
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/EJorWM9_mEY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/WC1PNo6JMnY" allowfullscreen>
                     </div>
                     <div class="video-info">
-                        <h3>Community Live Stream</h3>
-                        <p>MSOrigin | Live Broadcast</p>
+                        <h3>Finally Got My Ancient Debris</h3>
+                        <p>MSOrigin | Subscribe For More</p>
                     </div>
                 </div>
 
-                <!-- Video 2 -->
+                <!-- Video 2 (Replace YOUTUBE_VIDEO_ID_2 with your actual video ID) -->
                 <div class="video-card">
                     <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/7IP6GHWTy3g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/EJorWM9_mEY" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3>PvP Practice & Chill Chat</h3>
+                        <p>MSOrigin | Network Updates</p>
+                    </div>
+                </div>
+
+                <!-- Video 3 (Replace YOUTUBE_VIDEO_ID_3 with your actual video ID) -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/7IP6GHWTy3g" allowfullscreen></iframe>
                     </div>
                     <div class="video-info">
                         <h3>My First Live Stream With CHIRUGamer</h3>
-                        <p>MSOrigin | Let's Play #BGMI</p>
+                        <p>MSOrigin | Let's Play #BGMI </p>
                     </div>
                 </div>
             </div>
@@ -274,32 +285,34 @@
         <p>&copy; 2026 Origin Network. All rights reserved.</p>
     </footer>
 
-    <script>
-        // Automatically fetches live member counts using your Discord Server ID & API
+   <script>
         const SERVER_ID = '1524303256438968340';
+        const INVITE_CODE = 'vUnEuyE4v'; // Your invite code from your Discord button link
 
+        // 1. Fetch Online Count from the Widget JSON
         fetch(`https://discord.com/api/guilds/${SERVER_ID}/widget.json`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                // Update online members count
                 document.getElementById('online-count').innerText = data.presence_count || 'Live';
-                
-                // If members list is available in the widget JSON
-                if (data.members) {
-                    document.getElementById('total-count').innerText = data.members.length + "+";
+            })
+            .catch(error => {
+                console.error('Error fetching online count:', error);
+                document.getElementById('online-count').innerText = 'Online';
+            });
+
+        // 2. Fetch True Total Member Count using Discord's public invite endpoint
+        fetch(`https://discord.com/api/v10/invites/${INVITE_CODE}?with_counts=true`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.approximate_member_count) {
+                    document.getElementById('total-count').innerText = data.approximate_member_count + "+";
                 } else {
-                    document.getElementById('total-count').innerText = "Active";
+                    document.getElementById('total-count').innerText = "30+"; // Fallback if needed
                 }
             })
             .catch(error => {
-                console.error('Error fetching Discord stats:', error);
-                document.getElementById('online-count').innerText = 'Online';
-                document.getElementById('total-count').innerText = 'Active';
+                console.error('Error fetching total members:', error);
+                document.getElementById('total-count').innerText = "30+";
             });
     </script>
 </body>
